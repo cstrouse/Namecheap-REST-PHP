@@ -8,7 +8,7 @@ class namecheap
 	private $api_user;
 	private $api_key;
 	private $api_ip;
-	// sotrage for API responses
+	// storage for API responses
 	public $Response;
 	public $Error;
 	public $Raw;
@@ -297,5 +297,19 @@ class namecheap
 			$args['PromotionCode'] = $promo;
 		}
 		$this->execute( 'namecheap.users.getPricing', $args );
+	}
+	
+	/*
+	 * gets the status of RegistrarLock for the requested domain
+	 * @domain string the domain to query
+	 * @return boolean or error
+	 */
+	public function getRegistrarLock( $domain )
+	{
+		list( $sld, $tld ) = explode( '.', $domain );
+		if ( ! $this->execute( 'namecheap.domains.getRegistrarLock', array( 'SLD' => $sld, 'TLD' => $tld ) ) ) {
+			return FALSE;
+		}
+		return $this->Response;
 	}
 }
