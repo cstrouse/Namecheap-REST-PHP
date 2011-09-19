@@ -304,9 +304,13 @@ class namecheap
 	 * @domain string the domain to query
 	 * @return boolean or error
 	 */
-	public function getRegistrarLock( $domain )
+	public function getRegistrarLock($domain)
 	{
-		list($sld, $tld) = explode('.', $domain);
-		$this->execute('namecheap.domains.getRegistrarLock', array('SLD' => $sld, 'TLD' => $tld ));
+		$this->execute('namecheap.domains.getRegistrarLock', array('DomainName' => $domain));
+		if('true' == strtolower($this->Response->DomainGetRegistrarLockResult->attributes()->RegistrarLockStatus))
+		{
+			return TRUE;
+		}
+		return FALSE;
 	}
 }
