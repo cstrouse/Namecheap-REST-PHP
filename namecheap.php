@@ -28,7 +28,7 @@ class namecheap
 		}
 		$this->api_user = $credentials['api_user'];
 		$this->api_key = $credentials['api_key'];
-		$this->api_ip = ( 'detect' == $credentials['api_ip'] ) ? $this->detect_ip() : $credentials['api_ip'];
+		$this->api_ip = trim(( 'detect' == $credentials['api_ip'] ) ? $this->detect_ip() : $credentials['api_ip']);
 	}
 
 	/*
@@ -306,10 +306,7 @@ class namecheap
 	 */
 	public function getRegistrarLock( $domain )
 	{
-		list( $sld, $tld ) = explode( '.', $domain );
-		if ( ! $this->execute( 'namecheap.domains.getRegistrarLock', array( 'SLD' => $sld, 'TLD' => $tld ) ) ) {
-			return FALSE;
-		}
-		return $this->Response;
+		list($sld, $tld) = explode('.', $domain);
+		$this->execute('namecheap.domains.getRegistrarLock', array('SLD' => $sld, 'TLD' => $tld ));
 	}
 }
