@@ -140,6 +140,16 @@ class namecheap
 	}
 
 	/*
+	 * return a list of contact info for the domain specified
+	 * @return array of contacts or boolean false
+	 */
+	public function domainsGetContacts($domain)
+	{
+		$this->execute('namecheap.domains.getContacts', array('DomainName' => $domain));
+		// TODO: Handle the results
+	}
+
+	/*
 	 * return a list of domains we own
 	 * @type string All, Expiring, or Expired. Defaults to All
 	 * @page int page number to return
@@ -169,7 +179,7 @@ class namecheap
 	 * @domain string the domain to query
 	 * @return boolean or error
 	 */
-	public function getRegistrarLock($domain)
+	public function domainsGetRegistrarLock($domain)
 	{
 		$this->execute('namecheap.domains.getRegistrarLock', array('DomainName' => $domain));
 		if('true' == strtolower($this->Response->DomainGetRegistrarLockResult->attributes()->RegistrarLockStatus))
@@ -177,6 +187,53 @@ class namecheap
 			return TRUE;
 		}
 		return FALSE;
+	}
+
+	/*
+	 * return a list of TLDs
+	 */
+	public function domainsGetTldList()
+	{
+		$this->execute('namecheap.domains.getTldList');
+		// TODO: Handle result
+	}
+	
+	/*
+	 * reactive a domain
+	 * @return boolean true on success, boolean false on failure
+	 */
+	public function domainsReactivate($domain)
+	{
+		$this->execute('namecheap.domains.reactivate', array('DomainName' => $domain));
+		// TODO: Handle response
+	}
+	
+	/* 
+	 * renew an expiring domain
+	 * @return boolean true on success, boolean false on failure
+	 */
+	public function domainsRenew($domain, $years, $promo_code)
+	{
+		// TODO: Write me
+	}
+	
+	/*
+	 * sets contact information for the requested domain
+	 * @return boolean true on success, boolean false on failure
+	 */
+	public function domainsSetContacts($domain, $data)
+	{
+		// TODO: Write me
+	}
+	
+	/*
+	 * sets the RegistrarLock status for a domain
+	 *
+	 */
+	public function domainsSetRegistrarLock($domain, $lock_action)
+	{
+		$this->execute('namecheap.domains.setRegistarLock', array('DomainName' => $domain, 'LockAction' => $lock_action));
+		// TODO: Handle response
 	}
 
 	/*
