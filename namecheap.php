@@ -165,6 +165,21 @@ class namecheap
 	}
 
 	/*
+	 * gets the status of RegistrarLock for the requested domain
+	 * @domain string the domain to query
+	 * @return boolean or error
+	 */
+	public function getRegistrarLock($domain)
+	{
+		$this->execute('namecheap.domains.getRegistrarLock', array('DomainName' => $domain));
+		if('true' == strtolower($this->Response->DomainGetRegistrarLockResult->attributes()->RegistrarLockStatus))
+		{
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	/*
 	 * create new nameservers
 	 * @domain string domain name to which these nameservers will be assigned
 	 * @nameserver string the FQDN of the nameserver to create
@@ -297,20 +312,5 @@ class namecheap
 			$args['PromotionCode'] = $promo;
 		}
 		$this->execute( 'namecheap.users.getPricing', $args );
-	}
-	
-	/*
-	 * gets the status of RegistrarLock for the requested domain
-	 * @domain string the domain to query
-	 * @return boolean or error
-	 */
-	public function getRegistrarLock($domain)
-	{
-		$this->execute('namecheap.domains.getRegistrarLock', array('DomainName' => $domain));
-		if('true' == strtolower($this->Response->DomainGetRegistrarLockResult->attributes()->RegistrarLockStatus))
-		{
-			return TRUE;
-		}
-		return FALSE;
 	}
 }
